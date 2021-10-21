@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="hu">
+	<head>
+		<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
+		
+		<title>Bejelentkezés Sajtómetszet</title>
+		<meta charset=utf-8>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Pressgraphs">
+		<meta name="author" content="Xn">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="css/global.css">
+		<style>
+		@import url('https://fonts.googleapis.com/css2?family=Archivo&family=Poppins:wght@500&display=swap');
+		</style>
+	</head>
+	
+	<body>
+	<div class="container">
+	<hr>
+		<div class="row">
+			<div class="col">
+				<h3 style="text-align: center">Sajtómetszet</h3>
+				<h4 style="text-align: center">bejelentkezés</h4>
+				<hr>
+				<form action="/action_page.php">
+				  <label>E-mail cím:</label><br>
+				  <input type="text" class="form-control" id="email" title="Email cím megadása mező"><br>
+				  <label>Jelszó:</label><br>
+				  <input type="password" id="pw" class="form-control" title="Jelszó megadása mező"><br>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<button type="button" class="btn btn-success btn-lg btn-block" id = "login" onclick="userAuth()">Bejelentkezés</button>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col">
+			<a style="text-align: center" href="renew_pw.html" target = _blank  title="Tovább a jelszó frissítéséhez."><p>Új jelszó kérése</p></a>
+			</div>
+		</div>
+			<p id="capswarn" style="visibility: hidden; text-align: center">⚠️ A CapsLock be van kapcsolva!</p>
+			<p id="numwarn"  style="visibility: hidden; text-align: center">⚠️ A NumLock ki van kapcsolva!</p>
+		<br>
+		<div class="row">
+			<div class="col">
+			<a href="registration.html" class="btn btn-warning btn-lg btn-block" role="button" title="Tovább a fiók regisztrációjához.">Regisztráció</a>
+			</div>
+		</div>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col">
+				<a href="delete_acc.html" class="btn btn-danger btn-lg btn-block" role="button" title="Tovább a fiók törléséhez." title="A felhasználói fiók végleges törlése.">Fiók törlése</a>
+			</div>
+		</div>
+	
+	<br>
+	<br>
+	</body>
+	<footer>
+		<hr>
+		<div class="row">
+			<div class="col">
+			<a style="text-align: center" href="mailto: sajtotrendkereso@gmail.com" title="levelezési cím"><p>📧 Kapcsolat</p></a>
+			</div>
+		</div>
+		
+	<script>
+	pw.addEventListener( 'keydown', function( event ) {
+	  var caps = event.getModifierState && event.getModifierState( 'CapsLock' );
+	  if (caps === true){
+	    document.getElementById( "capswarn" ).style.visibility = 'visible';
+		document.getElementById( "capswarn" ).style.color = '#ffffff';
+		document.getElementById( "capswarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (caps === false){
+	    document.getElementById( "capswarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	pw.addEventListener( 'keydown', function( event ) {
+	  var num = event.getModifierState && event.getModifierState( 'NumLock' );
+	  if (num === false){
+	    document.getElementById( "numwarn" ).style.visibility = 'visible';
+		document.getElementById( "numwarn" ).style.color = '#ffffff';
+		document.getElementById( "numwarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (num === true){
+	    document.getElementById( "numwarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	</script>
+	<script type="text/javascript" src="js/md5-min.js"></script>
+	<script>
+
+		//Password field event listener -> userAuth
+		
+		async function userAuth(){
+
+		  const email = document.querySelector("#email");
+		  const password = document.querySelector("#pw");
+		  const hashed_pw = hex_md5(password.value);
+
+		  if (email.value == ""){
+		    document.getElementById('email').focus();
+		    return alert("Üres az e-mail mező.");
+		  };
+
+		  if (password.value == ""){
+		    document.getElementById('pw').focus();
+		    return alert("Üres a jelszó mező.");
+		  };
+		  
+		  const url = `https://api.pressgraphs.com/user_login/${email.value}&${hashed_pw}`
+		  let response = await fetch(url);
+	      let data = await response.json();
+
+	      if (data[0] === "email_not_found"){
+			  document.getElementById('email').focus();
+			  alert("Nem regisztrált, vagy hibásan megadott e-mailcím.")
+			  return
+			  };
+	      if (data[0] === "wrong_password"){
+			  document.getElementById('pw').focus();
+			  alert("Hibás jelszó.")
+			  return
+			  };
+
+	      if (data["auth_ok"]["user_api_key"] != ""){
+              localStorage.setItem('api_key', data["auth_ok"]["user_api_key"])
+			  window.location.replace("datechart.html");
+		  };
+		};
+
+		var input = document.getElementById("pw");
+	    input.addEventListener("keyup", function(event) {
+	    if (event.keyCode === 13) {
+	       event.preventDefault();
+	       document.getElementById("login").click();
+		  };
+		});
+	</script>
+	
+	</footer>
+	</div>
+	
+</html>

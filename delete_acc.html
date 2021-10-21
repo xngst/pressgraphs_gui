@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="hu">
+	<head>
+		<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
+		
+		<title>Fiók törlése Sajtómetszet</title>
+		<meta charset=utf-8>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Pressgraphs">
+		<meta name="author" content="Xn">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/global.css">
+		<style>
+		@import url('https://fonts.googleapis.com/css2?family=Archivo&family=Poppins:wght@500&display=swap');
+		</style>
+		
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+				<hr>
+					<h3 style="text-align: center">Sajtómetszet</h3>
+					<h4 style="text-align: center">fiók törlése</h4>
+					<hr>
+					<form action="/action_page.php">
+					  <label>Email cím:</label><br>
+					  <input type="text" class="form-control" id="email" title="Email cím megadása mező"><br>
+					  <label>Jelszó:</label><br>
+					  <input type="password" id="pw" class="form-control" title="Jelszó megadása mező"><br>
+					  <p id="capswarn" style="visibility: hidden; text-align: center">⚠️ A CapsLock be van kapcsolva!</p>
+					  <p id="numwarn" style="visibility: hidden; text-align: center">⚠️ A NumLock ki van kapcsolva!</p>
+					</form>
+				<br>
+				<div class="row">
+					<div class="col">
+					  <button type="button" class="btn btn-danger btn-lg btn-block" id = "deletion" onclick="delete_account()">Fiók végleges törlése</button>
+					</div>
+				</div>
+				<br>
+				<a style="text-align: center" href="index.html" title="Vissza a bejelentkezéshez"><p>Vissza a bejelentkezéshez.</p></a>
+				<hr>
+				</div>
+			</div>
+		</div>
+	</body>
+	<footer>
+		<div class="row">
+			<div class="col">
+			<a style="text-align: center" href = "mailto: sajtotrendkereso@gmail.com" title="levelezési cím"><p>📧  Kapcsolat</p></a>
+			</div>
+		</div>
+	<script>
+	pw.addEventListener( 'keydown', function( event ) {
+	  var caps = event.getModifierState && event.getModifierState( 'CapsLock' );
+	  if (caps === true){
+	    document.getElementById( "capswarn" ).style.visibility = 'visible';
+		document.getElementById( "capswarn" ).style.color = '#ffffff';
+		document.getElementById( "capswarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (caps === false){
+	    document.getElementById( "capswarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	pw.addEventListener( 'keydown', function( event ) {
+	  var num = event.getModifierState && event.getModifierState( 'NumLock' );
+	  if (num === false){
+	    document.getElementById( "numwarn" ).style.visibility = 'visible';
+		document.getElementById( "numwarn" ).style.color = '#ffffff';
+		document.getElementById( "numwarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (num === true){
+	    document.getElementById( "numwarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+
+	</script>
+	<script>
+		function validateEmail(email) {
+		  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		  return re.test(email);
+		}
+	</script>
+
+	<script type="text/javascript" src="js/md5-min.js"></script>
+	
+    <script>
+		async function delete_account(){
+
+		const email = document.querySelector("#email");
+		const pw = document.querySelector("#pw");
+
+		if (validateEmail(email.value) === false) {
+			document.getElementById('email').focus();
+			return alert("A megadott e-mail cím formailag nem helyes.")
+			}
+
+		if (email.value == ""){
+		document.getElementById('email').focus();
+		return alert("Nem lett jelszó megadva.");
+		};
+
+		if (pw.value == ""){
+		document.getElementById('pw').focus();
+		return alert("Nem lett jelszó megadva.");
+		};
+		
+		hashed_pw = hex_md5(pw.value);
+		const delete_acc_url = `https://api.pressgraphs.com/delete_acc/${email.value}&${hashed_pw}`;
+		let response = await fetch(delete_acc_url);
+		let data = await response.json();
+
+		if (data[0] === "not_a_registered_user"){
+			alert("Nem regisztrált, vagy hibásan megadott e-mailcím.")
+			};
+
+		if (data[0] === "wrong_password"){
+			alert("Hibás jelszó.")
+			};
+
+		if (data[0] === "acc_deleted"){
+			alert("A fiók sikeresen törlésre került.")
+			setTimeout(function() {
+				window.location.replace("index.html");
+			}, 3000);
+			};
+	};
+
+	</script>
+	</footer>
+</html>

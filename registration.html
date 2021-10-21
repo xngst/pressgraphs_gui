@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="hu">
+	<head>
+		<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
+		
+		<title>Regisztráció Sajtómetszet</title>
+		<meta charset=utf-8>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Pressgraphs">
+		<meta name="author" content="Xn">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/global.css">
+		<style>
+		@import url('https://fonts.googleapis.com/css2?family=Archivo&family=Poppins:wght@500&display=swap');
+		</style>
+		
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+				<hr>
+					<h3 style="text-align: center">Sajtómetszet</h3>
+					<h4 style="text-align: center">fiók regisztráció</h4>
+					<hr>
+					<form>
+					  <br>
+					  <br>
+					  <label>Felhasználónév:</label><br>
+					  <input type="text" class="form-control" id="email" title="Email cím megadása mező"><br>
+					  <label>Jelszó:</label><br>
+					  <input type="password" id="pw1" class="form-control" title="Jelszó megadása mező"><br>
+					  <label>Jelszó ismét:</label><br>
+					  <input type="password" id="pw2" class="form-control" title="Jelszó megadása mégegyszer mező"><br>
+					  <p id="capswarn" style="visibility: hidden; text-align: center">⚠️ A CapsLock be van kapcsolva!</p>
+					  <p id="numwarn" style="visibility: hidden; text-align: center">⚠️ A NumLock ki van kapcsolva!</p>
+					</form>
+				<hr>
+				<div class="row">
+					<div class="col">
+					    <a style="text-align: center" href="aszf.html" target = _blank title="Általános Szerződési Feltételek"><p>Adatkezelési Tájékoztató</p></a>
+						<a style="text-align: center" href="aszf.html" target = _blank title="Általános Szerződési Feltételek"><p>Általános Szerződési Feltételek (ÁSZF)</p></a>
+						<p style="text-align: center">Elvastam, értettem és egyetértek az ÁSZF-el és az adatkezelési tájékoztatóval.</p>
+							<input type="checkbox" id="aszf" class="larger" name="aszf" value="agree" title="Általános Szerződési Feltételek és az Adatkezelési Tájékoztató elfogadása">
+						<br>
+						<button type="button" class="btn btn-success btn-lg btn-block" id = "registration" onclick="startRegistration()" title="regisztráció elküldése">Regisztrál</button>
+						<br>
+						<h6 id="feedback_positive" style="visibility: hidden; background-color: #C4F772; padding: 1em">A regisztrációs kódot elküldtük a megadott email címre.</h6>
+						<a style="text-align: center" href="index.html" title="Vissza a bejelentkezéshez"><p>Vissza a bejelentkezéshez.</p></a>
+					</div>
+				</div>
+				<hr>
+				</div>
+			</div>
+		</div>
+	</body>
+	<footer>
+		<div class="row">
+			<div class="col">
+			<a style="text-align: center" href = "mailto: sajtotrendkereso@gmail.com" title="levelezési cím"><p>📧 Kapcsolat</p></a>
+			</div>
+		</div>
+		
+	<script type="text/javascript" src="js/md5-min.js"></script>
+
+	<script>
+	pw1.addEventListener( 'keydown', function( event ) {
+	  var caps = event.getModifierState && event.getModifierState( 'CapsLock' );
+	  if (caps === true){
+	    document.getElementById( "capswarn" ).style.visibility = 'visible';
+		document.getElementById( "capswarn" ).style.color = '#ffffff';
+		document.getElementById( "capswarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (caps === false){
+	    document.getElementById( "capswarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	pw1.addEventListener( 'keydown', function( event ) {
+	  var num = event.getModifierState && event.getModifierState( 'NumLock' );
+	  if (num === false){
+	    document.getElementById( "numwarn" ).style.visibility = 'visible';
+		document.getElementById( "numwarn" ).style.color = '#ffffff';
+		document.getElementById( "numwarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (num === true){
+	    document.getElementById( "numwarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	pw2.addEventListener( 'keydown', function( event ) {
+	  var caps = event.getModifierState && event.getModifierState('CapsLock');
+	  if (caps === true){
+	    document.getElementById( "capswarn" ).style.visibility = 'visible';
+		document.getElementById( "capswarn" ).style.color = '#ffffff';
+		document.getElementById( "capswarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (caps === false){
+	    document.getElementById( "capswarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	pw2.addEventListener( 'keydown', function( event ) {
+	  var num = event.getModifierState && event.getModifierState( 'NumLock' );
+	  if (num === false){
+	    document.getElementById( "numwarn" ).style.visibility = 'visible';
+		document.getElementById( "capswarn" ).style.color = '#ffffff';
+		document.getElementById( "capswarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (num === true){
+	    document.getElementById( "capswarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	</script>
+
+	<script>
+		function validateEmail(email) {
+		  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		  return re.test(email);
+		}
+	</script>	
+	
+	<script>
+	async function startRegistration(){
+		
+		const email = document.querySelector("#email");
+		const pw1 = document.querySelector("#pw1");
+		const pw2 = document.querySelector("#pw2");
+		const aszf_value = document.getElementById("aszf").checked
+
+		if (validateEmail(email.value) === false) {
+			document.getElementById('email').focus();
+			return alert("A megadott e-mail cím formailag nem helyes.")
+			}
+
+		if (pw1.value == ""){
+		document.getElementById('pw1').focus();
+		return alert("Nem lett jelszó megadva.");
+		};
+
+		if (pw2.value == ""){
+		document.getElementById('pw2').focus();
+		return alert("Nem lett jelszó megadva.");
+		};
+
+		if (pw1.value != pw2.value){
+		document.getElementById('pw1').focus();
+		return alert("Az első és a második jelszó nem egyezik meg egymásssal.");
+		};
+
+		if (aszf_value === true ){
+			hashed_pw = hex_md5(pw1.value);
+			const url = `https://api.pressgraphs.com/register_user/${email.value}&${hashed_pw}`;
+			let response = await fetch(url);
+			let data = await response.json();
+
+            if (data[0] === "exists"){
+				document.getElementById('email').focus();
+				alert(`A ${email.value} e-mail cím már regisztrálva van.`)
+				return
+				}
+			
+			if (data["key"] != "") {
+			localStorage.setItem('api_key', data["key"])
+			document.getElementById( "feedback_positive" ).style.visibility = 'visible';
+			setTimeout(function() {
+				window.location.replace("login.html");
+			}, 4000);
+			return
+			}
+		}
+		else{
+		alert("Az ÁSZF és az adatkezelési tájékoztató nem lett elfogadva.")
+		return document.getElementById('aszf').focus()
+			};
+	};
+	</script>
+	</footer>
+</html>

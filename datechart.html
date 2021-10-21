@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="hu">
+	<head>
+		<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
+		
+		<title>Sajtómetszet</title>
+		<meta charset=utf-8>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Pressgraphs">
+		<meta name="author" content="Xn">
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/chart_site.css">
+		<style>
+		@import url('https://fonts.googleapis.com/css2?family=Archivo&family=Poppins:wght@500&display=swap');
+		</style>
+	</head>
+	
+<!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="center">
+					<h5>Sajtómetszet</h5>
+					<hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+					<nav class="navbar navbar-light">
+					  <div class="center">
+					  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span>≡</span>
+					  </button>
+					  </div>
+					  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mr-auto">
+						  <li class="nav-item active">
+							<div class="center">
+								<a class="nav-link" href="#">Dátum szerint<span class="sr-only">(current)</span></a>
+							</div>
+						  </li>
+						 
+						  <li class="nav-item">
+							<div class="center"> 
+								<a class="nav-link" href="#">Újságok szerint</a>
+							</div>
+						  </li>
+						  <li class="nav-item">
+							<div class="center">
+								<a class="nav-link" href="#">A honlapról</a>
+							</div>	
+						  </li>
+						</ul>
+					  </div>
+					</nav>					
+				</div>
+            </div>
+        </div>
+    </header>
+	
+<body>
+<div class="container">
+<!-- SEARCHWORD -->
+
+			<div class="row">
+				<div class="col">
+					<input type="text" class="form-control" id="search_word" onsubmit="startSearch" placeholder="keresőszó" required>
+				</div>
+			</div>
+			<br>
+<!-- DATE INPUT 1 -->
+			<div class="row">
+				<div class="col">
+					<div class="input-group input-daterange">
+						<input type="text" class="form-control" id="from_date" placeholder="Példa: 2021-09-01" required>
+						</input>
+						<h3> ⟷ </h3>
+<!-- DATE INPUT 2 -->
+						<input type="text" class="form-control" id="to_date" placeholder="Példa: 2021-09-31" required>
+						</input>
+					</div>
+				</div>
+			</div>
+			<br>
+			
+<!-- SEARCH BUTTON -->
+			<div class="row">
+				<div class="col">
+					<button id="search" class="btn btn-info btn-lg btn-block">Keresés</button>
+				<div class="row">
+		    </div>
+		</div>
+
+<!-- CHART -->
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<canvas id="myChart" width="400" height="400" role="img" alt="Grafikon elem"></canvas>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col">
+					<button type="button" class="btn btn-secondary btn-lg btn-block" onclick="download_chart()">Diagram mentése</button>
+				</div>
+		    </div>
+		</div>
+
+<!-- LABEL -->
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="center"><h6 id="label_text"></h6></div>
+				</div>
+			</div>
+			<br>
+			<hr>
+	    
+<!-- TABLE -->
+			<div class="row">
+				<div class="col">
+					<table border='1' id='mytable' class="table table-striped table-hover">
+						<tbody id="mytbody" class="mytbody">
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+<!-- EXPORT BUTTON-->
+			<div class="row">
+				<div class="col">
+					<button type="button" class="btn btn-secondary btn-lg btn-block" onclick="table_to_csv()">Lista mentése</button>
+				</div>
+		    </div>
+		</div>
+
+<!-- FOOTER -->		
+        </div>
+		<div class="container">
+			<div class="row">
+				<div class="center">
+					<h3 id="scroll_to_top" class="up_button" title="az oldal tetejére"> ⇧ </h3>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="row">
+				<div class="center">
+					<a style="text-align:" href = "mailto: sajtotrendkereso@gmail.com" title="levelezési cím"><p>📧  Kapcsolat</p></a>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</body>
+    
+<!-- Custom -->
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/listeners.js"></script>
+<script type="text/javascript" src="js/chart.js"></script>
+<script type="text/javascript" src="js/data_com.js"></script>
+<script type="text/javascript" src="js/download.js"></script>
+<script type="text/javascript" src="js/session_storage.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
+crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" 
+crossorigin="anonymous"></script>
+
+</html>

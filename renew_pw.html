@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html lang="hu">
+	<head>
+		<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
+		
+		<title>Új jelszó Sajtómetszet</title>
+		<meta charset=utf-8>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Pressgraphs">
+		<meta name="author" content="Xn">
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/global.css">
+		<style>
+		@import url('https://fonts.googleapis.com/css2?family=Archivo&family=Poppins:wght@500&display=swap');
+		</style>
+		
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+				<hr>
+					<h3 style="text-align: center">Sajtómetszet</h3>
+					<h4 style="text-align: center">új jelszó kérése</h4>
+					<hr>
+					<form>
+					  <br>
+					  <br>
+					  <label>E-mail cím:</label><br>
+					  <input type="text" class="form-control" id="email" title="Email cím megadása mező"><br>
+					</form>
+			</div>
+				<hr>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button type="button" class="btn btn-success btn-lg btn-block" id = "pw_reset" onclick="renew_pw()" title="regisztráció elküldése">Új jelszó kérése</button>
+				
+					<h6 id="feedback_positive" style="visibility: hidden; background-color: #C4F772; padding: 1em">Az új jelszó igényléshez szükséges kódot elküldtük a megadott email címre.</h6>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<form id="hidden_form" style="visibility:hidden">
+					  <label>E-mailben kapott kód:</label><br>
+					  <input type="text" id="reg_key" class="form-control" title="Kód megadása mező"><br>
+					  <label>Új jelszó:</label><br>
+					  <input type="password" id="pw1" class="form-control" title="Új jelszó megadása mező"><br>
+					  <label>Új jelszó ismét:</label><br>
+					  <input type="password" id="pw2" class="form-control" title="Új jelszó megadása mégegyszer mező"><br>
+					  <p id="capswarn" style="visibility: hidden; text-align: center">⚠️ A CapsLock be van kapcsolva!</p>
+					  <p id="numwarn" style="visibility: hidden; text-align: center">⚠️ A NumLock ki van kapcsolva!</p>
+					  <button type="button" class="btn btn-success btn-lg btn-block" id = "finish_pw_reset" onclick="finish_renew_pw()" title="Új jelszó elküldése">Új jelszó véglegesítése</button>
+					</form>
+				<h6 id="completion_positive" style="visibility: hidden; background-color: #C4F772; padding: 1em">Az új jelszó sikeresen beállítva.</h6>
+				<br>
+				<a style="text-align: center" href="index.html" title="Vissza a bejelentkezéshez"><p>Vissza a bejelentkezéshez.</p></a>
+				</div>
+			</div>
+			<hr>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<footer>
+		<div class="row">
+			<div class="col">
+			<a style="text-align: center" href = "mailto: sajtotrendkereso@gmail.com" title="levelezési cím"><p>📧 Kapcsolat</p></a>
+			</div>
+		</div>
+
+	<script>
+		function validateEmail(email) {
+		  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		  return re.test(email);
+		}
+	</script>
+
+	<script type="text/javascript" src="js/md5-min.js"></script>
+	
+	<script>
+	async function renew_pw(){
+
+	   //INITIATE
+		const email = document.querySelector("#email");
+		
+		if (email.value === ""){
+		document.getElementById('email').focus();
+		return alert("Üres az e-mail cím mező.");
+		};
+
+		
+		if (validateEmail(email.value) === false) {
+			document.getElementById('email').focus();
+			return alert("A megadott e-mail cím formailag nem helyes.")
+			};
+		
+		const pw_reset_url = `https://api.pressgraphs.com/reset_password/${email.value}`
+		let response = await fetch(pw_reset_url);
+		let data = await response.json();
+		
+		if (data[0] === "email_not_found"){
+		  document.getElementById('email').focus();
+		  alert("Hibás vagy nem regisztrált email cím.")
+		  };
+		  
+	   
+		if (data[0] === "reset_pw_mail_sent"){
+		  document.getElementById('reg_key').focus();
+		  document.getElementById("feedback_positive").style.visibility = 'visible';
+		  document.getElementById("hidden_form").style.visibility = 'visible';
+		  };
+		  
+		return
+		};
+
+	//FINISH
+	async function finish_renew_pw(){
+
+		const key = document.querySelector("#reg_key");
+		const pw1 = document.querySelector("#pw1");
+		const pw2 = document.querySelector("#pw2");
+		const hashed_pw = hex_md5(pw2.value);
+
+		if (document.getElementById("hidden_form").style.visibility = 'visible' ){
+
+			if (reg_key.value === ""){
+			document.getElementById('reg_key').focus();
+			return alert("Üres az 'e-mailben kapott kód' mező.");
+			};
+
+			if (pw1.value === ""){
+			document.getElementById('pw1').focus();
+			return alert("Üres az 'új jelszó' mező.");
+			};
+
+			if (pw2.value === ""){
+			document.getElementById('pw2').focus();
+			return alert("Üres az 'új jelszó ismét' mező.");
+			};
+		};
+
+		if (pw1.value != pw2.value){
+		document.getElementById('pw1').focus();
+		return alert("Az első és a második jelszó nem egyezik meg egymásssal.");
+		};
+		
+		const finish_pw_reset_url = `https://api.pressgraphs.com/finish_reset_pw/${key.value.trim()}&${hashed_pw}`
+		console.log(finish_pw_reset_url)
+		let response = await fetch(finish_pw_reset_url);
+		let data = await response.json();
+		if (data[0] === "pw_updated_successfully"){
+			document.getElementById("completion_positive").style.visibility = 'visible';
+			setTimeout(function() {
+				window.location.replace("index.html");
+			}, 3000);
+		  };
+
+		if (data[0] === "key_not_found"){
+			document.getElementById('reg_key').focus();
+			alert("A megadott kód nem megfelelő.")
+		  };
+
+		return
+		};
+	</script>
+
+<script>
+
+	pw1.addEventListener( 'keydown', function( event ) {
+	  var caps = event.getModifierState && event.getModifierState( 'CapsLock' );
+	  if (caps === true){
+	    document.getElementById( "capswarn" ).style.visibility = 'visible';
+		document.getElementById( "capswarn" ).style.color = '#ffffff';
+		document.getElementById( "capswarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (caps === false){
+	    document.getElementById( "capswarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	pw1.addEventListener( 'keydown', function( event ) {
+	  var num = event.getModifierState && event.getModifierState( 'NumLock' );
+	  if (num === false){
+	    document.getElementById( "numwarn" ).style.visibility = 'visible';
+		document.getElementById( "numwarn" ).style.color = '#ffffff';
+		document.getElementById( "numwarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (num === true){
+	    document.getElementById( "numwarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	pw2.addEventListener( 'keydown', function( event ) {
+	  var caps = event.getModifierState && event.getModifierState('CapsLock');
+	  if (caps === true){
+	    document.getElementById( "capswarn" ).style.visibility = 'visible';
+		document.getElementById( "capswarn" ).style.color = '#ffffff';
+		document.getElementById( "capswarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (caps === false){
+	    document.getElementById( "capswarn" ).style.visibility = "hidden";
+	  }
+	  
+	});
+	
+	pw2.addEventListener( 'keydown', function( event ) {
+	  var num = event.getModifierState && event.getModifierState( 'NumLock' );
+	  if (num === false){
+	    document.getElementById( "numwarn" ).style.visibility = 'visible';
+		document.getElementById( "capswarn" ).style.color = '#ffffff';
+		document.getElementById( "capswarn" ).style.backgroundColor = '#ff5050';
+		}
+	  if (num === true){
+	    document.getElementById( "capswarn" ).style.visibility = "hidden";
+	  }
+
+	var input = document.getElementById("email");
+	input.addEventListener("keyup", function(event) {
+	console.log("enter")
+	if (event.keyCode === 13) {
+	   event.preventDefault();
+	   document.getElementById("pw_reset").click();
+	  };
+	 });
+	});
+
+	</script>
+	</footer>
+</html>

@@ -1,0 +1,36 @@
+/*
+Theme Name: Pressgraphs - Sajtómetszet
+Description: Custom CSS a bejelentkezési felülethez
+Author: Fehér Áron
+Tags: Pressgraphs, Sajtómetszet
+*/
+
+body{
+	background-color: #fff7ee;
+	font-family: 'Archivo', sans-serif;
+	border-style: solid;
+	border-width: 0.9em;
+	border-color: #ffffff;
+}
+
+a{
+	color:black;
+}
+
+.container{
+	max-width:350px;
+}
+
+input.larger {
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	display: block;
+	margin-left: auto;
+	margin-right: auto
+}
+
+::selection {
+  color: #FFFF57;
+  background: #003166;
+}

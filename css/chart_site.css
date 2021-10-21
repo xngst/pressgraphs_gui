@@ -1,0 +1,102 @@
+/*
+Theme Name: Pressgraphs - Sajtómetszet
+Description: Custom CSS a chartot tartalmazó felületekhez
+Author: Fehér Áron
+Tags: Pressgraphs, Sajtómetszet
+*/
+
+body{
+  font-family: 'Archivo', sans-serif;
+  background:white;
+  width:90%;
+  margin:0 auto;
+  max-width:750px;
+  padding:2em 0 6em;
+  background-color: #fff7ee;
+}
+
+a{color:black;
+  }
+
+a:hover{
+	color:black;
+	text-decoration:underline;
+	font-size:1em;
+}
+
+canvas{
+	border-width: 0.1px;
+	border-style: solid;
+	border-color: grey;
+	}
+
+title{
+font-family: 'Poppins', sans-serif;
+}
+
+th{
+	font-size:1em;
+	text-align: center;
+	}
+
+tr{
+	font-size:0.9em;
+	}
+
+::selection {
+  color: white;
+  background: #17a2b8;
+}
+
+.nav_li a:hover {
+  background-color: #111;
+}
+
+.center {
+  margin: auto;
+  position: relative;
+  text-align: center;
+  top: 50%;
+  width: 30%;  
+}
+
+.chart-container{
+position: absolute;
+display: block;
+padding: 20px;
+height:40vh;
+width:80vw;
+}
+
+.container {
+  padding:1em;
+  margin:auto;
+  }
+
+.form-control {
+  /* border: 1px outset red; */
+  background-color: lightblue;
+  text-align: center;
+}
+
+.input {
+  /* border: 1px outset red; */
+  background-color: lightblue;
+  text-align: center;
+}
+
+.logo{
+	text-align: center;
+	}
+
+.news_block{
+	background: lightblue;
+}
+
+.up_button{
+cursor: pointer;
+}
+
+
+
+
